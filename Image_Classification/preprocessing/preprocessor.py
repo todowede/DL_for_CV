@@ -3,7 +3,7 @@ import cv2
 
 
 # Create Preprocessor class for the preprocessing functions.
-class Preprocessor:
+class SimplePreprocessor:
     def __init__(self, width, height, inter=cv2.INTER_AREA):
         # define the constructor to the Preprocessor class
         # it requires two argument and optional third
