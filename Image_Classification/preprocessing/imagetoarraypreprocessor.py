@@ -3,7 +3,7 @@ from keras.preprocessing.image import img_to_array
 
 
 # define the constructor to our ImageToArrayPreprocessor class
-class ImageToArrayPreprocessir:
+class ImageToArrayPreprocessor:
     def __init__(self, dataFormat=None):
         # store the image data format
         self.dataFormat = dataFormat
