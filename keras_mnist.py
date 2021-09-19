@@ -57,7 +57,7 @@ H = model.fit(trainX, trainY, validation_data=(testX, testY),
 
 # evaluate the network
 print("[INFO] evaluating network...")
-# call to .predict will return class label probabilities 
+# call to .predict will return class label probabilities
 # for every data point in testX.
 # predictions variable will be a Numpy array with shape (X, 10)
 predictions = model.predict(testX, batch_size=128)
