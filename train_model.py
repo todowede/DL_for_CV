@@ -56,8 +56,16 @@ labels = np_utils.to_categorical(le.transform(labels), 2)
 
 # handles our data imbalance issue by computing the class weights:
 # account for skew in the labeled data
+#
+# calculate the total number of images in each class and 
+#initialize dictionary to store the class weights
 classTotals = labels.sum(axis=0)
-classWeight = classTotals.max() / classTotals
+classWeight = dict()
+
+# loop over all classes and calculate the class weight
+for i in range(0, len(classTotals)):
+    classWeight[i] = classTotals.max() / classTotals[i]
+#classWeight = classTotals.max() / classTotals
 # computes the total number of examples per class. In this case, 
 # # classTotals will be an array: [9475, 3690] for “not smiling” and 
 # “smiling”, respectively. We then scale these totals on Line 53 to 
@@ -70,7 +78,8 @@ classWeight = classTotals.max() / classTotals
 # partition the data into training and testing splits using 80% of
 # the data for training and the remaining 20% for testing
 (trainX, testX, trainY, testY) = train_test_split(data, labels, 
-                                                  test_size=0.20, stratify=labels, 
+                                                  test_size=0.20, 
+                                                  stratify=labels, 
                                                   random_state=42)
 
 # Now to train LeNet
@@ -83,7 +92,7 @@ model.compile(loss="binary_crossentropy", optimizer="adam",
 # train the network
 print("[INFO] training network...")
 H = model.fit(trainX, trainY, validation_data=(testX, testY),
-              class_weight=classWeight, batch_size=64,
+              batch_size=64,
               epochs=15, verbose=1)
 
 # evaluate the network
@@ -101,8 +110,8 @@ plt.style.use("ggplot")
 plt.figure()
 plt.plot(np.arange(0, 15), H.history["loss"], label="train_loss")
 plt.plot(np.arange(0, 15), H.history["val_loss"], label="val_loss")
-plt.plot(np.arange(0, 15), H.history["acc"], label="acc")
-plt.plot(np.arange(0, 15), H.history["val_acc"], label="val_acc")
+plt.plot(np.arange(0, 15), H.history["accuracy"], label="train_accuracy")
+plt.plot(np.arange(0, 15), H.history["val_accuracy"], label="val_accuracy")
 plt.title("Training Loss and Accuracy")
 plt.xlabel("Epoch #")
 plt.ylabel("Loss/Accuracy")
